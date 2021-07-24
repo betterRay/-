@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .outer{
+            box-sizing: border-box;
+            width: 400px;
+            height: 400px;
+            margin-left: 50px;
+            font-size: 0;
+            position: relative;
+            float: left;
+        }
+        img{
+            width: 100%;
+            height: 100%;
+        }
+        .scope{
+            width: 200px;
+            height: 200px;
+            background-color: yellow;
+            position: absolute;
+            opacity: 0.5;
+            display: none;
+            pointer-events: none;
+        }
+        .enlarge{
+            width: 400px;
+            height: 400px;
+            float: left;
+            background-size: 800px 800px;
+            background-image: url(/10.jpg);
+            background-position-x: 0px;
+            background-position-y: 0px;
+            background-repeat: no-repeat;
+            /* background-size: cover; */
+            display: none;
+        }
+    </style>
+    <script>
+        window.onload=function(){
+            const outer =document.getElementsByClassName('outer')[0]
+            const enlarge =document.getElementsByClassName('enlarge')[0]
+            const scope =document.getElementsByClassName('scope')[0]
+            outer.onmouseenter=function(){
+                enlarge.style.display='block'
+                scope.style.display='block'
+            }
+            outer.onmousemove=function(event){
+                
+                let left=event.offsetX-scope.offsetWidth/2
+                let top=event.offsetY-scope.offsetHeight/2
+                
+                if(left<0){
+                    left=0
+                }else if(left>outer.offsetWidth-scope.offsetWidth){
+                    left=outer.offsetWidth-scope.offsetWidth
+                }
+                if(top<0){
+                    top=0
+                }else if(top>outer.offsetHeight-scope.offsetHeight){
+                    top=outer.offsetHeight-scope.offsetHeight
+                }
+                scope.style.left=left+'px'
+                scope.style.top=top+'px'
+                enlarge.style.backgroundPositionX=-2*left+'px'
+                enlarge.style.backgroundPositionY=-2*top+'px'
+            }
+            outer.onmouseleave=function(event){
+                enlarge.style.display='none'
+                scope.style.display='none'
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="outer">
+        <img src="/10.jpg" alt="">
+        <div class="scope"></div>
+    </div>
+    <div class="enlarge">
+    </div>
+</body>
+</html>
